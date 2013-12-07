@@ -24,11 +24,15 @@ using it. For python programmers it's second best thing since sliced bread.
 Installation:
 -------------
 
-clone repo and run::
+via pip::
+   
+   $ pip install easyfab
+
+
+or if you want latest version from repository, clone repository and run::
 
     $ python setup.py install
 
-easyfab will install all dependencies and will be ready to use.
 
 Usage:
 ------
