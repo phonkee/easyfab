@@ -37,11 +37,12 @@ or if you want latest version from repository, clone repository and run::
 Usage:
 ------
 
-in project directory simply run::
+in project top level directory simply run::
 
     $ easyfab init
 
-then if you want to add new deployment (in this case settings for production server)::
+Easyfab will generate fabfile.py which acts as proxy to easyfab. No need to edit it in the future.
+Then if you want to add new deployment (in this case settings for production server)::
 
     $ easyfab add production
 
