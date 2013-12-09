@@ -17,7 +17,7 @@ requires = [
 
 setup(
     name='easyfab',
-    version='0.3.8',
+    version='0.3.11',
     description='Simple deployments with fabric',
     long_description=readme,
     url='https://github.com/phonkee/easyfab/',
@@ -31,7 +31,12 @@ setup(
         'bin/easyfab'
     ],
     install_requires=requires,
+    include_package_data = True,
     package_data={
+        '': [
+            'LICENSE',
+            'README.rst',
+        ],
         'easyfab': [
             '*.conf',
             'templates/*.*',
@@ -39,6 +44,9 @@ setup(
             'templates/deployment/conf/*.*',
         ]
     },
+    data_files=[
+        ('', ['LICENSE', 'README.rst'])
+    ],
     zip_safe=False,
     classifiers=(
         'Development Status :: 3 - Alpha',
