@@ -17,7 +17,7 @@ requires = [
 
 setup(
     name='easyfab',
-    version='0.3.11',
+    version='0.3.14',
     description='Simple deployments with fabric',
     long_description=readme,
     url='https://github.com/phonkee/easyfab/',

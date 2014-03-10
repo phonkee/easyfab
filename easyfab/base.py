@@ -34,7 +34,10 @@ class BaseDeployment(object):
         self.packages_dir = self.deployment_dir.child('.packages')
         self.target_dir = Path(self.target_dir)
         self.deployment_files_dir = deployment_dir.child(deployment)
-        self.project_name = get_project_name(self.project_dir)
+
+    @property
+    def project_name(self):
+	return get_project_name(self.project_dir)
 
     def get_package_name(self):
         """ Returns package name (based on git revision, branch, deployment)
