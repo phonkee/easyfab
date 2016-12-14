@@ -29,12 +29,14 @@ class CopyItem(BaseItem):
     src = None
     destination = None
     only_content = None
+    recursive = None
 
-    def __init__(self, src, destination, only_content=False, follow_symlinks=True):
+    def __init__(self, src, destination, only_content=False, recursive=False, follow_symlinks=True):
         self.follow_symlinks = follow_symlinks
         self.src = Path(src)
         self.destination = Path(destination)
         self.only_content = only_content
+        self.recursive = recursive
 
     def run(self, context):
         if not self.src.isabsolute():
@@ -44,13 +46,16 @@ class CopyItem(BaseItem):
 
         switches = []
 
+        if self.recursive:
+            switches.append("-R")
+
         if self.follow_symlinks:
             switches.append("-L")
 
-        command = 'cp -R %(src)s %(switches)s %(destination)s' % {
+        command = 'cp %(switches)s %(src)s %(destination)s' % {
+            'switches': ' '.join(switches),
             'src': self.src,
             'destination': self.destination,
-            'switches': ' '.join(switches),
         }
 
         fabric.api.local(command, capture=True)

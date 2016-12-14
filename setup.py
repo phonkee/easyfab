@@ -6,19 +6,18 @@ except ImportError:
 with open('LICENSE') as f:
     license = f.read()
 
-# read README and store it to variable (no error checking since repository contains this file)
 with open('README.rst') as f:
     readme = f.read()
 
 requires = [
-    'jinja2',
-    'fabric',
-    'unipath',
+        'jinja2',
+        'fabric',
+        'unipath',
 ]
 
 setup(
     name='easyfab',
-    version='0.3.15',
+    version='0.4.11',
     description='Simple deployments with fabric',
     long_description=readme,
     url='https://github.com/phonkee/easyfab/',
@@ -32,7 +31,7 @@ setup(
         'bin/easyfab'
     ],
     install_requires=requires,
-    include_package_data=True,
+    include_package_data = True,
     package_data={
         '': [
             'LICENSE',
@@ -49,13 +48,13 @@ setup(
         ('', ['LICENSE', 'README.rst'])
     ],
     zip_safe=False,
-    classifiers=(
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
-        'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-    ),
+    # classifiers=(
+    #     'Development Status :: 3 - Alpha',
+    #     'Intended Audience :: Developers',
+    #     'Natural Language :: English',
+    #     'License :: OSI Approved :: Apache Software License',
+    #     'Programming Language :: Python',
+    #     'Programming Language :: Python :: 2.6',
+    #     'Programming Language :: Python :: 2.7',
+    # ),
 )

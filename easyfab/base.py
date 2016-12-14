@@ -14,6 +14,8 @@ from .items import BaseItem
 from .utils import process_directory, get_relative_path, get_project_name
 
 import inspect
+import os
+
 
 class BaseDeployment(object):
     """ BaseDeployment class
@@ -26,6 +28,7 @@ class BaseDeployment(object):
     project_dir = None
     virtualenv_dir = None
     mode = 0777
+    settings = "settings"
 
     def __init__(self, deployment, project_dir, deployment_dir):
         self.deployment = deployment
@@ -37,11 +40,9 @@ class BaseDeployment(object):
 
     @property
     def project_name(self):
-	return get_project_name(self.project_dir)
+	   return get_project_name(self.project_dir)
 
-    def get_package_name(self):
-        """ Returns package name (based on git revision, branch, deployment)
-        """
+    def get_version(self):
         branch_identifier = 'on branch'
         result = local('git status', capture=True)
         for line in result.splitlines():
@@ -56,8 +57,17 @@ class BaseDeployment(object):
         except:
             raise GitError('Cannot identify last revision from git.')
         revision = result.splitlines()[0].split()[1][:7]
-        package_name = u'%s-%s-%s' % (self.deployment, branch, revision)
-        return package_name
+        return (branch, "rev%s" % revision)
+
+
+    def get_package_name(self):
+        """ Returns package name (based on git revision, branch, deployment)
+        """
+        versions = [
+            self.deployment
+        ]
+        versions = versions + list(self.get_version())
+        return "-".join(versions)
 
     @easyfabtask
     def deploy(self, force_make_package=False, **options):
@@ -166,7 +176,7 @@ class BaseDeployment(object):
         """
         full_manage_dir = Path(self.target_dir, Path(self.manage_dir))
         with virtualenv(str(self.virtualenv_dir), full_manage_dir):
-            sudo('manage.py %s' % arg)
+            sudo('./manage.py %s --settings=%s' % (arg, self.settings))
 
     @easyfabtask
     def upgrade_requirements(self):
