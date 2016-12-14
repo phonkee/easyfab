@@ -30,7 +30,8 @@ class CopyItem(BaseItem):
     destination = None
     only_content = None
 
-    def __init__(self, src, destination, only_content=False):
+    def __init__(self, src, destination, only_content=False, follow_symlinks=True):
+        self.follow_symlinks = follow_symlinks
         self.src = Path(src)
         self.destination = Path(destination)
         self.only_content = only_content
@@ -41,9 +42,15 @@ class CopyItem(BaseItem):
         if not self.destination.isabsolute():
             self.destination = Path(Path(context['package_project_dir']), self.destination)
 
-        command = 'cp -R %(src)s %(destination)s' % {
+        switches = []
+
+        if self.follow_symlinks:
+            switches.append("-L")
+
+        command = 'cp -R %(src)s %(switches)s %(destination)s' % {
             'src': self.src,
-            'destination': self.destination
+            'destination': self.destination,
+            'switches': ' '.join(switches),
         }
 
         fabric.api.local(command, capture=True)
